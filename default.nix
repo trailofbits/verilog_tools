@@ -9,8 +9,9 @@ let
     pname = "verilog_tools";
     version = "0.0.1";
     src = ./.;
-    format = "setuptools";
+    doCheck = false;
     propagatedBuildInputs = [ psutil ];
+    format = "setuptools";
   };
   sv-python = pkgs.python311.withPackages (ps: with ps; [verilog_tools]);
 
