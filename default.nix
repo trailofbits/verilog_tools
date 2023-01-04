@@ -9,15 +9,20 @@ let
     pname = "verilog_tools";
     version = "0.0.1";
     src = ./.;
-    doCheck = false;
+    # NOTE(jl): upstream hack. https://nixos.wiki/wiki/Packaging/Python#Testing_via_this_command_is_deprecated
+    checkPhase = ''
+      runHook preCheck
+      ${pkgs.python311.interpreter} -m unittest
+      runHook postCheck
+    '';
     propagatedBuildInputs = [ psutil ];
     format = "setuptools";
   };
-  sv-python = pkgs.python311.withPackages (ps: with ps; [verilog_tools]);
+  sv-python = pkgs.python311.withPackages (ps: with ps; [ verilog_tools ]);
 
 in
 with pkgs; stdenv.mkDerivation {
-  name = "sv-tools";
+  name = "verilog_tools";
   src = ./.;
 
   nativeBuildInputs = [
