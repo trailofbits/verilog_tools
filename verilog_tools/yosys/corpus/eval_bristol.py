@@ -1,6 +1,7 @@
-import argparse, sys
-from binascii import unhexlify
+import argparse
+import sys
 from collections import deque
+
 from progressbar import progressbar
 
 

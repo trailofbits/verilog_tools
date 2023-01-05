@@ -3,7 +3,7 @@ import subprocess
 import typing
 from pathlib import Path
 
-from verilog_tools.utils.external import run_and_profile, RunData
+from verilog_tools.utils.external import RunData, run_and_profile
 
 REVERIE_BIN = "speed-reverie"
 
@@ -34,7 +34,10 @@ def collect_args(parser: argparse.ArgumentParser):
     parser.add_argument("circuit_path", help="Bristol file to read circuit from")
     parser.add_argument(
         "witness_path",
-        help="Text file to read witness from. Should be encoded using ASCII 1's and 0' and start with the string `01`",
+        help="""
+        Text file to read witness from.
+        Should be encoded using ASCII 1's and 0' and start with the string `01`
+        """,
     )
     parser.add_argument(
         "--keep",

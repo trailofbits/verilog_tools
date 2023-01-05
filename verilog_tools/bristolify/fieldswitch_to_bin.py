@@ -7,23 +7,18 @@ around as a reference in case we decide to re-implement a Python API for the Rus
 """
 
 import argparse
-import os
-
-import sys
 import gc
-import random
+import os
+import sys
 import time
-
-from typing import Dict, TextIO, List, Hashable, Tuple, Optional
+from collections import deque
+from functools import lru_cache
+from typing import Dict, Hashable, List, Optional, TextIO, Tuple
 
 import psutil
-
-from sv_circuit import Flattener
-from sv_circuit import Circuit as BoolCircuit
-from sv_circuit import CircuitCompositor
 from sv_circuit import ArithCircuitBase, ArithFlattenerBase
-from functools import lru_cache
-from collections import deque
+from sv_circuit import Circuit as BoolCircuit
+from sv_circuit import CircuitCompositor, Flattener
 
 wire_count = 2
 

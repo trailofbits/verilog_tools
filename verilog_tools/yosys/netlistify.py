@@ -1,6 +1,7 @@
-from .yosys import Session
 import argparse
 import os
+
+from .yosys import Session
 
 this_directory = os.path.abspath(os.path.dirname(__file__))
 library = os.path.join(this_directory, "./my_library.lib")
@@ -130,8 +131,9 @@ def make_arithmetic_netlist(
     blackbox=frozenset(),
 ):
     """
-    Very similar to make_netlist, but with a few of the optimizations skipped, and the option to provide a set of
-    _blackbox_ modules that Yosys should not attempt to synthesize
+    Very similar to make_netlist, but with a few of the optimizations skipped,
+    and the option to provide a set of _blackbox_ modules that Yosys should
+    not attempt to synthesize
 
     :param blackbox: iterable of module names to mark as black boxes
     :return: memory usage information

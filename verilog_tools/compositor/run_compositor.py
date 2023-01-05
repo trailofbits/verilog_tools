@@ -1,7 +1,7 @@
 import argparse
 from pathlib import Path
 
-from verilog_tools.utils.external import run_and_profile, RunData
+from verilog_tools.utils.external import RunData, run_and_profile
 
 COMPOSITOR_BIN = "sv-compositor"
 STAT_BIN = "sv-bin-stat"

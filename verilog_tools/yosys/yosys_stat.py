@@ -1,6 +1,7 @@
-from .yosys import Session
 import argparse
 import os
+
+from .yosys import Session
 
 this_directory = os.path.abspath(os.path.dirname(__file__))
 library = os.path.join(this_directory, "./my_library.lib")

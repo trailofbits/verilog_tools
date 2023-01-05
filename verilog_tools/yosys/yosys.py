@@ -1,6 +1,7 @@
 # from pwnlib.tubes.process import process
-import psutil
 import subprocess
+
+import psutil
 
 
 def remove_prefix(text, prefix):
@@ -14,7 +15,8 @@ class YosysError(Exception):
 
 class Session:
     """
-    A wrapper around pwnlib.tubes.process that makes it easier to interact with Yosys via Python.
+    A wrapper around pwnlib.tubes.process that makes it easier to interact with
+    Yosys via Python.
 
     It makes Yosys commands available as top-level python functions. For example:
 
@@ -273,8 +275,10 @@ class Session:
         self.running = True
 
     def _run_raw_cmd(self, cmd: str):
-        """Passed cmd to yosys. Confirms that Yosys is running, but other than that has no
-        error handling. Cleans up the output by UTF-8 formatting and stripping it."""
+        """
+        Passed cmd to yosys. Confirms that Yosys is running, but other than that has
+        no error handling. Cleans up the output by UTF-8 formatting and stripping it.
+        """
         if not self.running:
             raise RuntimeError(
                 "This session has exited! Use .restart to reinitialize it."
@@ -288,9 +292,11 @@ class Session:
         )
 
     def _run_cmd(self, cmd, *args, **kwargs):
-        """Formats the provided command with *args and **kwargs, and passes the result to
-        _run_raw_cmd. Handles EOFError in case of crashed processes. Raises YosysError if
-        the command did not complete successfully."""
+        """
+        Formats the provided command with *args and **kwargs, and passes the result to
+        _run_raw_cmd. Handles EOFError in case of crashed processes. Raises YosysError
+        if the command did not complete successfully.
+        """
         cmd_str = (f"{cmd} {self._filter_kwargs(**kwargs)} " + " ".join(args)).strip()
         result = ""
         try:

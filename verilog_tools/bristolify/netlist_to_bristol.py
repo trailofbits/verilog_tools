@@ -8,19 +8,16 @@ around as a reference in case we decide to re-implement a Python API for the Rus
 
 from __future__ import print_function
 
-
-import json
 import argparse
-
-import sys
 import gc
-
-from typing import Dict, TextIO, List, Hashable, Tuple, Optional
-
-from sv_circuit import Flattener
-from sv_circuit import Circuit as BoolCircuit
-from functools import lru_cache
+import json
+import sys
 from collections import deque
+from functools import lru_cache
+from typing import Dict, Hashable, List, Optional, TextIO, Tuple
+
+from sv_circuit import Circuit as BoolCircuit
+from sv_circuit import Flattener
 
 wire_count = -1
 

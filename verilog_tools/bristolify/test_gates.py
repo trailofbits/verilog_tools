@@ -1,5 +1,6 @@
 import unittest
-from gates import AND, XOR, INV
+
+from gates import AND, INV, XOR
 
 
 class TestGates(unittest.TestCase):

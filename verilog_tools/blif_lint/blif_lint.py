@@ -1,10 +1,9 @@
 import argparse
 import sys
 from collections import deque
-from functools import reduce
-from typing import TextIO, List, Set, Optional, Dict, Tuple
-
 from dataclasses import dataclass, field
+from functools import reduce
+from typing import Dict, List, Optional, Set, TextIO, Tuple
 
 
 def _chunk_inputs(inputs: deque):
