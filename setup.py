@@ -21,10 +21,6 @@ setup(
         "console_scripts": [
             "sv-netlist = verilog_tools.yosys.netlistify:main",
             "sv-stat = verilog_tools.yosys.yosys_stat:main",
-            "sv-bristol-eval = verilog_tools.yosys.corpus.eval_bristol:main",
-            "sv-blif-lint = verilog_tools.blif_lint:main",
-            "sv-reverie = verilog_tools.reverie.run_reverie:main",
-            "sv-lucid = verilog_tools.lucid.run_lucid:main",
         ]
     },
 )
