@@ -15,6 +15,7 @@ setup(
     url="https://github.com/trailofbits/verilog_tools",
     author="Trail of Bits",
     version="0.0.1",
+    include_package_data=True,
     packages=find_packages(exclude=["tests", "tests.*"]),
     python_requires=">=3.8",
     entry_points={

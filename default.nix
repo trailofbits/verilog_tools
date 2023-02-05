@@ -11,8 +11,7 @@ let
     # FIXME(jl): upstream hack to enable testing:
     # https://nixos.wiki/wiki/Packaging/Python#Testing_via_this_command_is_deprecated
     doCheck = true;
-    buildInputs = [
-      types-psutil
+    propagatedBuildInputs = [
       psutil
       pwntools
     ];
@@ -20,6 +19,7 @@ let
   };
 
   svPython = pkgs.${pythonVersion}.withPackages (ps: with ps; [
+    pytest
     verilogTools
   ]);
 in
