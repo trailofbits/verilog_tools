@@ -1,5 +1,7 @@
 import psutil  # type: ignore
 from pwnlib.tubes.process import process  # type: ignore
+import os
+import logging
 
 
 def remove_prefix(text: str, prefix: str):
@@ -264,6 +266,10 @@ class Session:
         self.restart()
         self.history = []
 
+        LOGLEVEL = os.environ.get('LOGLEVEL', 'INFO').upper()
+        logging.basicConfig(level=LOGLEVEL, format='%(asctime)s %(message)s')
+        self.log = logging.getLogger()
+
     def restart(self):
         """Initialize the Yosys process"""
         if self.running:
@@ -282,7 +288,10 @@ class Session:
                 "This session has exited! Use .restart to reinitialize it."
             )
         self.history.append(cmd)
-        self.p.sendline(cmd)
+
+        self.log.info(f"{os.path.basename(self.p.executable)}: {cmd}")
+        self.p.sendline(cmd.encode("utf-8"))
+
         return (
             remove_prefix(self.p.recvuntil(b"yosys> ", drop=True).decode("utf-8"), cmd)
             .strip()
