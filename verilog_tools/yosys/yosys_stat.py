@@ -44,9 +44,9 @@ def stat(args):
     s.techmap()
     s.flatten()
     s.opt(purge=True)
-    s.abc(liberty=library)
+    # s.abc(liberty=library)
     s.opt(purge=True)
-    s.read_liberty(lib=library)
+    # s.read_liberty(lib=library)
     print(s.stat())
 
 

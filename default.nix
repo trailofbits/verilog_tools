@@ -1,30 +1,31 @@
+{ sources ? import ./nix/sources.nix
+, pkgs ? import sources.nixpkgs { }
+}:
 let
-  pkgs = import (builtins.fetchTarball {
-    name = "nixpkgs-22.11";
-    url = "https://github.com/NixOS/nixpkgs/archive/refs/tags/22.11.tar.gz";
-    sha256 = "sha256:11w3wn2yjhaa5pv20gbfbirvjq6i3m7pqrq2msf0g7cv44vijwgw";
-  }) {};
+  pythonVersion = "python311";
 
-  verilog_tools = with pkgs.python311.pkgs; buildPythonPackage rec {
+  verilogTools = with pkgs.${pythonVersion}.pkgs; buildPythonPackage rec {
     pname = "verilog_tools";
     version = "0.0.1";
     src = ./.;
-    # FIXME(jl): upstream hack to enable testing: https://nixos.wiki/wiki/Packaging/Python#Testing_via_this_command_is_deprecated
+    # FIXME(jl): upstream hack to enable testing:
+    # https://nixos.wiki/wiki/Packaging/Python#Testing_via_this_command_is_deprecated
     doCheck = false;
-    propagatedBuildInputs = [ psutil ];
+    propagatedBuildInputs = [ psutil pwntools ];
     format = "setuptools";
   };
-  sv-python = pkgs.python311.withPackages (ps: with ps; [verilog_tools]);
 
+  svPython = pkgs.${pythonVersion}.withPackages (ps: with ps; [
+    verilogTools
+  ]);
 in
-with pkgs; stdenv.mkDerivation {
+with pkgs; pkgs.mkShell {
   name = "sv-tools";
   src = ./.;
 
-  nativeBuildInputs = [
+  propagatedBuildInputs = [
     black
-    isort
-    ruff
-    sv-python
+    svPython
+    yosys
   ];
 }

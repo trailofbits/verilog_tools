@@ -1,5 +1,4 @@
-# from pwnlib.tubes.process import process
-import subprocess
+from pwnlib.tubes.process import process
 
 import psutil
 
@@ -270,7 +269,7 @@ class Session:
         """Initialize the Yosys process"""
         if self.running:
             self.exit()
-        self.p = subprocess.Popen(self._path)
+        self.p = process(self._path)
         self.p.recvuntil(b"yosys> ")
         self.running = True
 
