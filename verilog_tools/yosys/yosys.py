@@ -1,8 +1,8 @@
-import psutil
-from pwnlib.tubes.process import process
+import psutil  # type: ignore
+from pwnlib.tubes.process import process  # type: ignore
 
 
-def remove_prefix(text, prefix):
+def remove_prefix(text: str, prefix: str):
     """https://stackoverflow.com/a/16892491"""
     return text[text.startswith(prefix) and len(prefix) :]
 
@@ -29,7 +29,7 @@ class Session:
     ```
     """
 
-    _exported_functions = {
+    _exported_functions: set[str] = {
         "abc",
         "add",
         "aigmap",

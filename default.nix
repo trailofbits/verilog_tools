@@ -10,8 +10,12 @@ let
     src = ./.;
     # FIXME(jl): upstream hack to enable testing:
     # https://nixos.wiki/wiki/Packaging/Python#Testing_via_this_command_is_deprecated
-    doCheck = false;
-    propagatedBuildInputs = [ psutil pwntools ];
+    doCheck = true;
+    buildInputs = [
+      types-psutil
+      psutil
+      pwntools
+    ];
     format = "setuptools";
   };
 
@@ -24,8 +28,9 @@ with pkgs; pkgs.mkShell {
   src = ./.;
 
   propagatedBuildInputs = [
-    isort
     black
+    isort
+    mypy
     ruff
     svPython
     yosys

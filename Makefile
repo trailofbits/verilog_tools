@@ -12,4 +12,5 @@ format:
 lint:
 		black --check $(PY_SRC) && \
 		isort --check $(PY_SRC) && \
-		ruff $(PY_SRC)
+		ruff $(PY_SRC) && \
+		mypy $(PY_MODULE)
