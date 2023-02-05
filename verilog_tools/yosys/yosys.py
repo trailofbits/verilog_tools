@@ -1,6 +1,5 @@
-from pwnlib.tubes.process import process
-
 import psutil
+from pwnlib.tubes.process import process
 
 
 def remove_prefix(text, prefix):

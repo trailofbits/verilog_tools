@@ -24,7 +24,9 @@ with pkgs; pkgs.mkShell {
   src = ./.;
 
   propagatedBuildInputs = [
+    isort
     black
+    ruff
     svPython
     yosys
   ];
