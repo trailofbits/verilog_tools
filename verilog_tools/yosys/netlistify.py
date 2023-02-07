@@ -8,7 +8,6 @@ library = os.path.join(this_directory, "./my_library.lib")
 
 
 def collect_args(parser: argparse.ArgumentParser):
-    parser.add_argument("out_fname")
     parser.add_argument(
         "--top",
         type=str,
@@ -42,6 +41,9 @@ def collect_args(parser: argparse.ArgumentParser):
         nargs="+",
         help="Verilog files needed to fully synthesize top module",
     )
+    parser.add_argument(
+        "-o", "--output", type=str, help="Output file name", required=True
+    )
     return parser
 
 
@@ -55,14 +57,14 @@ def main():
     if args.arithmetic:
         make_arithmetic_netlist(
             args.verilog_files,
-            args.out_fname,
+            args.output,
             top=None,
             include_dirs=args.includes,
         )
     else:
         make_netlist(
             args.verilog_files,
-            args.out_fname,
+            args.output,
             top=args.top,
             json=args.json,
             include_dirs=args.includes,
@@ -72,7 +74,7 @@ def main():
 
 def make_netlist(
     verilog_files,
-    out_fname,
+    output,
     top=None,
     json=False,
     macros=None,
@@ -83,7 +85,7 @@ def make_netlist(
     Converts a series of Verilog files into a BlIF netlist
 
     :param verilog_files: List of verilog files to include in synthesis
-    :param out_fname: Location to write BLIF file to
+    :param output: Location to write BLIF file to
     :param top: Name of top circuit to use (if needed)
     :param json: Emit JSON (instead of BLIF)
     :param macros: Verilog macros to set during synthesis
@@ -112,9 +114,9 @@ def make_netlist(
     s.clean()  # (purge=True)
     s.read_liberty(lib=library)
     if json:
-        s.write_json(out_fname)
+        s.write_json(output)
     else:
-        s.write_blif(out_fname, gates=True, impltf=True, buf="BUF IN OUT")
+        s.write_blif(output, gates=True, impltf=True, buf="BUF IN OUT")
 
     usage = s.memory_usage()
     s.exit()
@@ -124,7 +126,7 @@ def make_netlist(
 
 def make_arithmetic_netlist(
     verilog_files,
-    out_fname,
+    output,
     top=None,
     macros=None,
     include_dirs=[],
@@ -150,7 +152,7 @@ def make_arithmetic_netlist(
         s.hierarchy(auto_top=True)
     s.opt(purge=True)
     s.clean(purge=True)
-    s.write_blif(out_fname, gates=True, impltf=True, blackbox=True, buf="BUF IN OUT")
+    s.write_blif(output, gates=True, impltf=True, blackbox=True, buf="BUF IN OUT")
 
     usage = s.memory_usage()
     s.exit()

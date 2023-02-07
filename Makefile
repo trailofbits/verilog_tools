@@ -14,3 +14,7 @@ lint:
 		isort --check $(PY_SRC) && \
 		ruff $(PY_SRC) && \
 		mypy $(PY_MODULE)
+
+.PHONY: edit
+edit:
+	$(EDITOR) $(PY_SRC)

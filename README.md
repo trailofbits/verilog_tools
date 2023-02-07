@@ -42,10 +42,10 @@ Interactively in `nix-shell`,
 or `sv-netlist`, printing timestamped synthesis logs:
 
 ```
-[nix-shell]$ LOGLEVEL=info sv-netlist --top circuit test/imul.blif test/imul.v
-2023-02-05 16:55:33,828 yosys: read_verilog  -DNO_DISASM=1 test/imul.v
-2023-02-05 16:55:33,838 yosys: hierarchy -check -top circuit
-2023-02-05 16:55:33,839 yosys: proc
+[nix-shell]$ LOGLEVEL=info sv-netlist --top circuit test/imul.v -o test/imul.blif
+2023-02-05 16:55:33,828 yosys read_verilog  -DNO_DISASM=1 test/imul.v
+2023-02-05 16:55:33,838 yosys hierarchy -check -top circuit
+2023-02-05 16:55:33,839 yosys proc
 # ...
 ```
 
@@ -54,6 +54,6 @@ Non-interactively, passing the interactive invocations through `nix-shell --run`
 ```sh
 $ nix-shell --run "sv-stat test/imul.v"
 # ...
-$ nix-shell --run "LOGLEVEL=info sv-netlist --top circuit test/imul.blif test/imul.v
+$ nix-shell --run "LOGLEVEL=info sv-netlist --top circuit test/imul.v -o test/imul.bli'
 # ...
 ```

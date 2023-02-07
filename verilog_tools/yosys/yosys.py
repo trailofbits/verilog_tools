@@ -1,7 +1,8 @@
+import logging
+import os
+
 import psutil  # type: ignore
 from pwnlib.tubes.process import process  # type: ignore
-import os
-import logging
 
 
 def remove_prefix(text: str, prefix: str):
@@ -266,8 +267,8 @@ class Session:
         self.restart()
         self.history = []
 
-        LOGLEVEL = os.environ.get('LOGLEVEL', 'INFO').upper()
-        logging.basicConfig(level=LOGLEVEL, format='%(asctime)s %(message)s')
+        LOGLEVEL = os.environ.get("LOGLEVEL", "INFO").upper()
+        logging.basicConfig(level=LOGLEVEL, format="%(asctime)s %(message)s")
         self.log = logging.getLogger()
 
     def restart(self):
@@ -289,7 +290,7 @@ class Session:
             )
         self.history.append(cmd)
 
-        self.log.info(f"{os.path.basename(self.p.executable)}: {cmd}")
+        self.log.info(f"{os.path.basename(self.p.executable)} {cmd}")
         self.p.sendline(cmd.encode("utf-8"))
 
         return (
