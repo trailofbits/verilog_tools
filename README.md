@@ -1,5 +1,7 @@
 # verilog_tools
 
+[![Build Status](https://github.com/trailofbits/verilog_tools/yml/badge.svg)](https://github.com/trailofbits/sholva/actions?query=workflow%3ACI)
+
 Zero-Knowledge Proof of Vulnerability Tools.
 
 ## Tools
@@ -57,3 +59,12 @@ $ nix-shell --run "sv-stat test/imul.v"
 $ nix-shell --run "LOGLEVEL=info sv-netlist --top circuit test/imul.v -o test/imul.bli'
 # ...
 ```
+
+## Distribution and Licensing
+
+The views, opinions, and/or findings expressed are those of the author(s) and
+should not be interpreted as representing the official views or policies of the
+Department of Defense or the U.S. Government.
+
+_verilog_tools_ is licensed under the GNU AGPLv3 License. A copy of the terms can
+be found in the [LICENSE](./LICENSE) file.
