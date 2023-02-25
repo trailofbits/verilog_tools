@@ -11,9 +11,17 @@ Wrappers around [https://github.com/YosysHQ/yosys](yosys) providing circuit comp
 - `sv-netlist` -- Synthesize a Netlist (in BLIF or JSON) from Verilog file(s).
 - `sv-stat` -- Synthesis gate statistics from Verilog file(s).
 
+## Installation
+
+```sh
+$ nix-build
+```
+
+The resulting [tools](#tools) are built, and available in `result/bin/`.
+
 ## Usage
 
-Interactively in `nix-shell`,
+Interactively in a development `nix-shell`,
 
 ```sh
  $ nix-shell
