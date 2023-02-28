@@ -7,7 +7,7 @@ on:
   pull_request:
   schedule:
     # run CI every day even if no PRs/merges occur
-    - cron: '0 12 * * *'
+    - cron: "0 12 * * *"
 
 jobs:
   format:
@@ -19,12 +19,7 @@ jobs:
           nix_path: nixpkgs=channel:nixos-unstable
       - name: format
         run: nix-shell --pure --run "make format"
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: cachix/install-nix-action@v17
-        with:
-          nix_path: nixpkgs=channel:nixos-unstable
       - name: lint
         run: nix-shell --pure --run "make lint"
+      - name: build
+        run: nix-build
