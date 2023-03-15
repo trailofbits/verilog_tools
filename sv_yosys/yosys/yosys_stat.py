@@ -7,7 +7,7 @@ this_directory = os.path.abspath(os.path.dirname(__file__))
 library = os.path.join(this_directory, "./my_library.lib")
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(
         "Convert a Verilog module into a netlist and print the statistics"
     )
@@ -35,7 +35,7 @@ def main():
     stat(args)
 
 
-def stat(args):
+def stat(args: argparse.Namespace) -> None:
     s = Session.from_verilog(*args.verilog_files, include_dirs=args.includes)
     s.hierarchy(check=True, top=args.top)
     s.proc()
