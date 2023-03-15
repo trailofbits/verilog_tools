@@ -1,8 +1,12 @@
-# verilog_tools
+# sv-yosys
 
-[![Build Status](https://github.com/trailofbits/verilog_tools/yml/badge.svg)](https://github.com/trailofbits/sholva/actions?query=workflow%3ACI)
+<!--- BADGES: START --->
+[![CI](https://github.com/trailofbits/sv-yosys/actions/workflows/tests.yml/badge.svg)](https://github.com/trailofbits/sv-yosys/actions/workflows/tests.yml)
+[![PyPI version](https://badge.fury.io/py/sv-yosys.svg)](https://pypi.org/project/sv-yosys)
+[![Packaging status](https://repology.org/badge/tiny-repos/python:sv-yosys.svg)](https://repology.org/project/python:sv-yosys/versions)
+<!--- BADGES: END --->
 
-Zero-Knowledge Proof of Vulnerability Tools.
+Yosys wrappers for SIEVE ZK-circuit synthesis.
 
 ## Tools
 
