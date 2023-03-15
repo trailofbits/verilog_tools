@@ -13,7 +13,7 @@ from .yosys import Session
 class YosysBackend(Enum):
     BLIF = auto()
     JSON = auto()
-    CNF = auto()
+    CXXRTL = auto()
 
 
 this_directory = os.path.abspath(os.path.dirname(__file__))
@@ -127,8 +127,8 @@ def make_netlist(
         s.write_blif(output, gates=True, impltf=True, buf="BUF IN OUT")
     elif fmt == YosysBackend.JSON:
         s.write_json(output)
-    elif fmt == YosysBackend.CNF:
-        s.write_cnf(output)
+    elif fmt == YosysBackend.CXXRTL:
+        s.write_cxxrtl(output)
 
     usage = s.memory_usage()
     s.exit()

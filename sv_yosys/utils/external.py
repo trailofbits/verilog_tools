@@ -2,8 +2,9 @@ import subprocess
 import typing
 from dataclasses import dataclass
 from io import StringIO
+from typing import Any
 
-import psutil  # type: ignore
+import psutil
 from verilog_tools.utils.timer import Timer
 
 
@@ -15,7 +16,7 @@ class RunData:
     stdout: str
 
 
-def run_and_profile(args, *, capture=False) -> RunData:
+def run_and_profile(args: Any, *, capture: bool = False) -> RunData:
     with Timer() as elapsed:
         proc = subprocess.Popen(
             args, stdout=(subprocess.PIPE if capture else None), encoding="utf-8"
