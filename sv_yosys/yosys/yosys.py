@@ -1,3 +1,4 @@
+import contextlib
 import logging
 import os
 
@@ -267,8 +268,8 @@ class Session:
         self.restart()
         self.history = []
 
-        LOGLEVEL = os.environ.get("LOGLEVEL", "INFO").upper()
-        logging.basicConfig(level=LOGLEVEL, format="%(asctime)s %(message)s")
+        loglevel = os.environ.get("LOGLEVEL", "INFO").upper()
+        logging.basicConfig(level=loglevel, format="%(asctime)s %(message)s")
         self.log = logging.getLogger()
 
     def restart(self):
@@ -285,9 +286,7 @@ class Session:
         no error handling. Cleans up the output by UTF-8 formatting and stripping it.
         """
         if not self.running:
-            raise RuntimeError(
-                "This session has exited! Use .restart to reinitialize it."
-            )
+            raise RuntimeError("This session has exited! Use .restart to reinitialize it.")
         self.history.append(cmd)
 
         self.log.info(f"{os.path.basename(self.p.executable)} {cmd}")
@@ -314,9 +313,7 @@ class Session:
             print(result)
             raise YosysError(f"This command caused Yosys to exit: {cmd_str}")
         if "ERROR:" in result:
-            raise YosysError(
-                "\n========\n" + result.split("ERROR: ")[-1] + "\n========"
-            )
+            raise YosysError("\n========\n" + result.split("ERROR: ")[-1] + "\n========")
         return result
 
     def __getattr__(self, item):
@@ -339,16 +336,14 @@ class Session:
         )
 
     def exit(self):
-        try:
+        with contextlib.supress(EOFError):
             self._run_raw_cmd("exit")
-        except EOFError:
-            pass
         self.running = False
 
     def dump_history(self):
         return ";\n".join(self.history)
 
-    def memory_usage(self):
+    def memory_usage(self) -> psutil.pmem:
         if not self.running:
             return None
         proc = psutil.Process(self.p.proc.pid)
