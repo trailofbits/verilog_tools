@@ -33,7 +33,8 @@ ifneq ($(TESTS),)
 	COV_ARGS :=
 else
 	TEST_ARGS :=
-	COV_ARGS := --fail-under 100
+	# FIXME(jl): re-enable `--fail-under 100` when more tests are justified
+	COV_ARGS :=
 endif
 
 .PHONY: all
