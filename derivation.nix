@@ -3,10 +3,10 @@
 }:
 
 with pkgs; python3Packages.buildPythonPackage rec {
-  pname = "verilog_tools-${version}";
-  version = "0.0.1";
+  pname = "sv-yosys-${version}";
+  version = "0.1.0";
 
-  format = "setuptools";
+  format = "pyproject";
   src = ./.;
 
   propagatedBuildInputs = with python3Packages; [

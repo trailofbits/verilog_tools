@@ -15,7 +15,10 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
 ]
-dependencies = []
+dependencies = [
+    "psutil",
+    "pwntools"
+]
 requires-python = ">=3.8"
 
 [project.optional-dependencies]
@@ -35,7 +38,8 @@ lint = [
 dev = ["sv-yosys[doc,test,lint]", "twine", "wheel", "build"]
 
 [project.scripts]
-"sv-yosys" = "sv_yosys._cli:main"
+"sv-netlist" = "sv_yosys.yosys.yosys_stat:main"
+"sv-stat" = "sv_yosys.yosys.netlistify:main"
 
 [project.urls]
 Homepage = "https://pypi.org/project/sv-yosys"

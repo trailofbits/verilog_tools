@@ -4,7 +4,6 @@ from dataclasses import dataclass
 from io import StringIO
 
 import psutil  # type: ignore
-
 from verilog_tools.utils.timer import Timer
 
 

@@ -44,7 +44,7 @@ all:
 dev: $(VENV)/pyvenv.cfg
 .PHONY: run
 run: $(VENV)/pyvenv.cfg
-	@. $(VENV_BIN)/activate && sv-yosys $(ARGS)
+	@. $(VENV_BIN)/activate && $(ARGS)
 
 $(VENV)/pyvenv.cfg: pyproject.toml
 	# Create our Python 3 virtual environment
