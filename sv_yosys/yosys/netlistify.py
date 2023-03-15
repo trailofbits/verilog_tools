@@ -1,11 +1,11 @@
 import argparse
 import os
+from collections.frozenset import FrozenSet
 from enum import Enum, auto
 from pathlib import Path
 from typing import Any
 
 import psutil
-from collection import FrozenSet
 
 from .yosys import Session
 
