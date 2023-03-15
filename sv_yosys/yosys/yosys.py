@@ -3,7 +3,6 @@ from __future__ import annotations
 import contextlib
 import logging
 import os
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable
 
@@ -20,7 +19,6 @@ class YosysError(Exception):
     pass
 
 
-@dataclass(frozen=True)
 class Session:
     """
     A wrapper around pwnlib.tubes.process that makes it easier to interact with
@@ -224,6 +222,7 @@ class Session:
         "wreduce",
         "write_aiger",
         "write_blif",
+        "write_cxxrtl",
         "write_btor",
         "write_edif",
         "write_file",
