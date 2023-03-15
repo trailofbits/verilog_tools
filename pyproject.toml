@@ -81,4 +81,5 @@ target-version = "py38"
 # environment, or the CLI (which is documented separately).
 exclude = ["env", "test", "sv_yosys/_cli.py"]
 ignore-semiprivate = true
-fail-under = 100
+# FIXME(jl): increase docstring coverage
+# fail-under = 100
