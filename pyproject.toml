@@ -9,6 +9,8 @@ description = "Yosys wrappers for SIEVE ZK-circuit synthesis."
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [
+    { name = "Jack Leightcap", email = "jack.leightcap@trailofbits.com" },
+    { name = "SIEVE", email = "sieve@trailofbits.com" },
     { name = "Trail of Bits", email = "opensource@trailofbits.com" },
 ]
 classifiers = [
