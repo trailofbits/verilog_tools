@@ -1,11 +1,16 @@
+from __future__ import annotations
+
+import contextlib
 import logging
 import os
+from pathlib import Path
+from typing import Any, Callable
 
-import psutil  # type: ignore
-from pwnlib.tubes.process import process  # type: ignore
+import psutil
+from pwnlib.tubes.process import process
 
 
-def remove_prefix(text: str, prefix: str):
+def remove_prefix(text: str, prefix: str) -> str:
     """https://stackoverflow.com/a/16892491"""
     return text[text.startswith(prefix) and len(prefix) :]
 
@@ -217,6 +222,7 @@ class Session:
         "wreduce",
         "write_aiger",
         "write_blif",
+        "write_cxxrtl",
         "write_btor",
         "write_edif",
         "write_file",
@@ -234,14 +240,17 @@ class Session:
     }
 
     @classmethod
-    def from_verilog(cls, *files, yosys_path="yosys", **kwargs):
+    def from_verilog(cls, *files: Any, yosys_path: str = "yosys", **kwargs: Any) -> Session:
         inst = cls(yosys_path=yosys_path)
+
+        # prime this class with a running yosys instance
+        # already having parsed the input Verilog
         inst.read_verilog(*files, **kwargs)
         return inst
 
     @staticmethod
-    def _filter_kwargs(**kwargs) -> str:
-        """Converts kwargs into command line strings. For example:
+    def _kwargs_yosys_command(**kwargs: Any) -> str:
+        """Converts kwargs into yosys command line strings. For example:
 
         {"module": "circuit"} becomes `-module circuit`
         {"color": [100, "circuit]} becomes `-color 100 circuit`
@@ -260,34 +269,35 @@ class Session:
 
         return " ".join(tokens)
 
-    def __init__(self, yosys_path="yosys"):
+    def __init__(self, yosys_path: str = "yosys"):
         self._path = yosys_path
-        self.p = None
+        self.p: None | process = None
         self.running = False
         self.restart()
-        self.history = []
+        self.history: list[str] = []
 
-        LOGLEVEL = os.environ.get("LOGLEVEL", "INFO").upper()
-        logging.basicConfig(level=LOGLEVEL, format="%(asctime)s %(message)s")
+        loglevel = os.environ.get("LOGLEVEL", "INFO").upper()
+        logging.basicConfig(level=loglevel, format="%(asctime)s %(message)s")
         self.log = logging.getLogger()
 
-    def restart(self):
+    def restart(self) -> None:
         """Initialize the Yosys process"""
         if self.running:
             self.exit()
         self.p = process(self._path)
+        assert self.p is not None
         self.p.recvuntil(b"yosys> ")
         self.running = True
 
-    def _run_raw_cmd(self, cmd: str):
+    def _run_raw_cmd(self, cmd: str) -> str:
         """
         Passed cmd to yosys. Confirms that Yosys is running, but other than that has
         no error handling. Cleans up the output by UTF-8 formatting and stripping it.
         """
         if not self.running:
-            raise RuntimeError(
-                "This session has exited! Use .restart to reinitialize it."
-            )
+            raise RuntimeError("This session has exited! Use .restart to reinitialize it.")
+        assert self.p is not None
+
         self.history.append(cmd)
 
         self.log.info(f"{os.path.basename(self.p.executable)} {cmd}")
@@ -299,13 +309,13 @@ class Session:
             .lstrip()
         )
 
-    def _run_cmd(self, cmd, *args, **kwargs):
+    def _run_cmd(self, cmd: str, *args: Any, **kwargs: Any) -> str:
         """
         Formats the provided command with *args and **kwargs, and passes the result to
         _run_raw_cmd. Handles EOFError in case of crashed processes. Raises YosysError
         if the command did not complete successfully.
         """
-        cmd_str = (f"{cmd} {self._filter_kwargs(**kwargs)} " + " ".join(args)).strip()
+        cmd_str = (f"{cmd} {self._kwargs_yosys_command(**kwargs)} " + " ".join(args)).strip()
         result = ""
         try:
             result = self._run_raw_cmd(cmd_str)
@@ -314,22 +324,22 @@ class Session:
             print(result)
             raise YosysError(f"This command caused Yosys to exit: {cmd_str}")
         if "ERROR:" in result:
-            raise YosysError(
-                "\n========\n" + result.split("ERROR: ")[-1] + "\n========"
-            )
+            raise YosysError("\n========\n" + result.split("ERROR: ")[-1] + "\n========")
         return result
 
-    def __getattr__(self, item):
+    def __getattr__(self, item: str) -> Callable[..., str]:
         """Allows the calling of Yosys functions listed in self._exported_functions"""
         if item not in self._exported_functions:
             raise AttributeError(f"Can't find a Yosys command called {item}")
 
-        def f(*args, **kwargs):
+        def f(*args: Any, **kwargs: Any) -> str:
             return self._run_cmd(item, *args, **kwargs)
 
         return f
 
-    def read_verilog(self, *args, macros={}, include_dirs=[], **kwargs):
+    def read_verilog(
+        self, *args: Any, macros: dict[str, Any] = {}, include_dirs: list[Path] = [], **kwargs: Any
+    ) -> str:
         return self._run_cmd(
             "read_verilog",
             *[f"-I{dir_}" for dir_ in include_dirs],
@@ -338,18 +348,17 @@ class Session:
             **kwargs,
         )
 
-    def exit(self):
-        try:
+    def exit(self) -> None:
+        with contextlib.suppress(EOFError):
             self._run_raw_cmd("exit")
-        except EOFError:
-            pass
         self.running = False
 
-    def dump_history(self):
+    def dump_history(self) -> str:
         return ";\n".join(self.history)
 
-    def memory_usage(self):
+    def memory_usage(self) -> None | psutil.pmem:
         if not self.running:
             return None
+        assert self.p is not None
         proc = psutil.Process(self.p.proc.pid)
         return proc.memory_info()
