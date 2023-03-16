@@ -1,3 +1,11 @@
-*__pycache__*
-result
-*.egg-info
+# nix
+result/
+# python
+env/
+pip-wheel-metadata/
+*.egg-info/
+__pycache__/
+.coverage*
+.idea
+html/
+dist/
