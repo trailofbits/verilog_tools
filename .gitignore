@@ -1,3 +1,6 @@
 *__pycache__*
 result
 *.egg-info
+.coverage
+dist/
+env/

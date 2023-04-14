@@ -1,6 +1,4 @@
-{ sources ? import ../nix/sources.nix
-, pkgs ? import sources.nixpkgs { }
-}:
+{ pkgs }:
 
 with pkgs; python3Packages.buildPythonPackage rec {
   pname = "verilog_tools-${version}";
