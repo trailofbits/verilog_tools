@@ -1,17 +1,12 @@
-{ sources ? import ../nix/sources.nix
-, pkgs ? import sources.nixpkgs { }
-}:
+{ pkgs }:
 
-with pkgs; python3Packages.buildPythonPackage rec {
+with pkgs;
+python3Packages.buildPythonPackage rec {
   pname = "verilog_tools-${version}";
   version = "0.0.1";
 
   format = "setuptools";
   src = ./.;
 
-  propagatedBuildInputs = with python3Packages; [
-    psutil
-    pwntools
-    yosys
-  ];
+  propagatedBuildInputs = with python3Packages; [ psutil pwntools yosys ];
 }
