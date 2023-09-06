@@ -27,15 +27,23 @@
             ];
         in rec {
           default = verilog_tools;
-          verilog_tools = pkgs.python3Packages.buildPythonPackage rec {
-            pname = "verilog_tools-${version}";
-            version = "0.0.1";
+          verilog_tools = with pkgs;
+            with python3Packages;
+            buildPythonPackage rec {
+              pname = "verilog_tools-${version}";
+              version = "0.0.1";
 
-            format = "setuptools";
-            src = ./.;
+              format = "setuptools";
+              src = ./.;
 
-            inherit propagatedBuildInputs;
-          };
+              inherit propagatedBuildInputs;
+
+              nativeCheckInputs = [ ruff black isort mypy ];
+              postCheck = ''
+                make format
+                make lint
+              '';
+            };
         });
 
       apps = forAllSystems (system: rec {

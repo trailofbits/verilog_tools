@@ -10,16 +10,12 @@ on:
     - cron: "0 12 * * *"
 
 jobs:
-  format:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: cachix/install-nix-action@v17
         with:
-          nix_path: nixpkgs=channel:nixos-unstable
-      - name: format
-        run: nix-shell --pure --run "make format"
-      - name: lint
-        run: nix-shell --pure --run "make lint"
+          nix_path: nixpkgs=channel:23.05
       - name: build
-        run: nix-build
+        run: nix build

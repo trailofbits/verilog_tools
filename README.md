@@ -11,26 +11,30 @@ Wrappers around [https://github.com/YosysHQ/yosys](yosys) providing circuit comp
 - `sv-netlist` -- Synthesize a Netlist (in BLIF or JSON) from Verilog file(s).
 - `sv-stat` -- Synthesis gate statistics from Verilog file(s).
 
-## Installation
+## Dependencies
+
+`sv_circuit` is built using [nix](https://nixos.wiki/wiki/Nix_package_manager).
+It is recommended to use the [Determinate Systems installer](https://determinate.systems/posts/determinate-nix-installer):
 
 ```sh
-$ nix-build
+$ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 ```
 
-The resulting [tools](#tools) are built, and available in `result/bin/`.
+## Running
+
+Running without installing,
+
+```bash
+$ nix run github:trailofbits/verilog_tools#sv-netlist
+$ nix run github:trailofbits/verilog_tools#sv-stat
+```
 
 ## Usage
 
-Interactively in a development `nix-shell`,
+Printing circuit statistics with `sv-stat`,
 
 ```sh
- $ nix-shell
-```
-
-[Tools](#tools) are available in `PATH`, e.g. `sv-stat`:
-
-```sh
-[nix-shell]$ sv-stat test/imul.v
+$ sv-stat test/imul.v
 
 === circuit ===
 
@@ -49,22 +53,13 @@ Interactively in a development `nix-shell`,
      $_XOR_                       4031
 ```
 
-or `sv-netlist`, printing timestamped synthesis logs:
+for `sv-netlist`, printing timestamped synthesis logs:
 
 ```
-[nix-shell]$ LOGLEVEL=info sv-netlist --top circuit test/imul.v -o test/imul.blif
+$ LOGLEVEL=info sv-netlist --top circuit test/imul.v -o test/imul.blif
 2023-02-05 16:55:33,828 yosys read_verilog  -DNO_DISASM=1 test/imul.v
 2023-02-05 16:55:33,838 yosys hierarchy -check -top circuit
 2023-02-05 16:55:33,839 yosys proc
-# ...
-```
-
-Non-interactively, passing the interactive invocations through `nix-shell --run`:
-
-```sh
-$ nix-shell --run "sv-stat test/imul.v"
-# ...
-$ nix-shell --run "LOGLEVEL=info sv-netlist --top circuit test/imul.v -o test/imul.bli'
 # ...
 ```
 
