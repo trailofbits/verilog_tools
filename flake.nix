@@ -47,6 +47,7 @@
         });
 
       apps = forAllSystems (system: rec {
+        default = sv-netlist;
         sv-netlist = {
           type = "app";
           program = "${self.packages.${system}.verilog_tools}/bin/sv-netlist";
